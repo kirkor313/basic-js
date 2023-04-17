@@ -21,3 +21,30 @@ function transform(/* arr */) {
 module.exports = {
   transform
 };
+
+function transform(arr) {
+  if (!(arr instanceof Array)) {
+    throw new Error("'arr' parameter must be an instance of the Array!");
+  }
+  if (arr.length == 0) {
+    return arr
+  }
+
+  const newArr = [...arr];
+
+  for (let i = 0; i < newArr.length; i ++) {
+    if (newArr[i] === '--discard-next') {
+      delete newArr[i + 1];
+      delete newArr[i];
+    }
+    if (newArr[i] === '--discard-prev') {
+      delete newArr[i - 1];
+      delete newArr[i];
+    }
+    if (newArr[i] === '--double-next') newArr[i] = newArr[i + 1];
+    if (newArr[i] === '--double-prev') newArr[i] = newArr[i - 1];
+  };
+
+  return newArr.filter(el => el !== undefined)
+
+}
